@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galerie — WarkozZ Coaching</title>
+<meta name="description" content="Screens de gameplay, photos de sessions et vidéos de review de VOD.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="assets/css/variables.css">
+<link rel="stylesheet" href="assets/css/reset.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/buttons.css">
+<link rel="stylesheet" href="assets/css/header.css">
+<link rel="stylesheet" href="assets/css/footer.css">
+<link rel="stylesheet" href="assets/css/hero.css">
+<link rel="stylesheet" href="assets/css/gallery.css">
+<link rel="stylesheet" href="assets/css/cta.css">
+<link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">WK</span>
+      <span class="logo-text">WarkozZ</span>
+    </a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="coachs.html">Nos coachs</a></li>
+        <li><a href="formations.html">Formations</a></li>
+        <li><a href="communaute.html">Communauté</a></li>
+        <li><a href="galerie.html" class="active">Galerie</a></li>
+        <li><a href="tips.html">Tips</a></li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-primary">Se connecter</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Ouvrir le menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <span class="eyebrow">Médias</span>
+      <h1>Galerie</h1>
+      <p>Extraits de sessions, screens de gameplay et reviews de VOD.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="gallery-grid">
+        <!-- Remplacer chaque bloc par une vraie image : <img src="assets/images/xxx.webp" alt="..."> -->
+        <div class="gallery-item">Screen gameplay 1</div>
+        <div class="gallery-item">Screen gameplay 2</div>
+        <div class="gallery-item">Photo setup / périphériques</div>
+        <div class="gallery-item video">
+          <!-- Vidéo locale : remplacer src par le vrai fichier .mp4 et poster par une vraie miniature -->
+          <video controls preload="none" poster="assets/images/vod-poster-placeholder.jpg">
+            <source src="assets/videos/vod-review-exemple.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="gallery-item">Photo coach en session</div>
+        <div class="gallery-item">Screen gameplay 3</div>
+      </div>
+      <p class="gallery-note">Formats recommandés : .webp pour les images, .mp4 compressé (H.264) pour les vidéos locales, chargement différé activé.</p>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="wrap">
+      <h2>Envie du même suivi pour ton propre gameplay ?</h2>
+      <a href="coachs.html" class="btn btn-primary">Réserver une session</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <span class="logo-mark">WK</span>
+          <span class="logo-text">WarkozZ</span>
+        </div>
+        <p>Coaching CS2 personnalisé, pour progresser en solo ou en équipe.</p>
+      </div>
+      <div>
+        <h4>Compagnie</h4>
+        <ul class="footer-links">
+          <li><a href="#">À propos</a></li>
+          <li><a href="formations.html">Nos services</a></li>
+          <li><a href="#">Confidentialité</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Aide</h4>
+        <ul class="footer-links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Retours formation</a></li>
+          <li><a href="#">Options de paiement</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Suivez-nous</h4>
+        <div class="social-row">
+          <a href="https://discord.gg/8s3e7tH8" aria-label="Discord"><i class="fa-brands fa-discord"></i></a>
+          <a href="https://twitter.com/WaRKoZz_" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+          <a href="https://www.instagram.com/rayane.maroqui" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© WarkozZ Coaching</span>
+      <span>Tous droits réservés</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>
