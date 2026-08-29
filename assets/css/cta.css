@@ -1,0 +1,13 @@
+/* Bandeau d'appel à l'action */
+.cta-banner{
+  background:var(--bg-raised);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:56px 0;
+  text-align:center;
+}
+
+.cta-banner h2{
+  font-size:clamp(20px,3vw,26px);
+  margin-bottom:20px;
+}
