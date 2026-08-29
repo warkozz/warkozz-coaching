@@ -1,0 +1,113 @@
+/* Processus de réservation et grille tarifaire */
+.process-steps{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.process-step{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:16px 14px;
+}
+
+.step-num{
+  font-family:var(--font-head);
+  color:var(--cyan);
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:10px;
+}
+
+.process-step p{
+  color:var(--text);
+  font-size:12px;
+  line-height:1.5;
+}
+
+.pricing-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:36px;
+}
+
+.price-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:24px;
+  position:relative;
+}
+
+.price-card.featured{
+  border:2px solid var(--cyan);
+}
+
+.badge-featured{
+  position:absolute;
+  top:-11px;
+  left:22px;
+  background:var(--cyan);
+  color:var(--cyan-dark);
+  font-size:10px;
+  font-weight:600;
+  padding:3px 10px;
+  letter-spacing:0.5px;
+}
+
+.price-name{
+  color:var(--text-dim);
+  font-size:12px;
+  margin-bottom:8px;
+}
+
+.price-amount{
+  font-family:var(--font-head);
+  color:var(--text);
+  font-size:26px;
+  font-weight:600;
+  margin-bottom:16px;
+}
+
+.price-amount span{
+  font-family:var(--font-body);
+  font-size:12px;
+  color:var(--text-faint);
+  font-weight:400;
+}
+
+.price-features{
+  color:var(--text-dim);
+  font-size:12px;
+  line-height:2;
+  margin-bottom:20px;
+}
+
+.referral-banner{
+  background:var(--bg-card);
+  border:1px solid var(--orange);
+  padding:16px 20px;
+  color:var(--text);
+  font-size:13px;
+  margin-top:28px;
+}
+
+.calendar-placeholder{
+  background:var(--bg-card);
+  border:1px dashed var(--border);
+  padding:40px 20px;
+  text-align:center;
+  color:var(--text-faint);
+  font-size:13px;
+  margin-top:20px;
+}
+
+@media (max-width:860px){
+  .process-steps{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .pricing-grid{
+    grid-template-columns:1fr;
+  }
+}
