@@ -1,0 +1,36 @@
+/* Bandeau de statistiques */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+}
+
+.stat{
+  padding:26px 12px;
+  text-align:center;
+  border-left:1px solid var(--border);
+}
+
+.stat:first-child{
+  border-left:none;
+}
+
+.stat-num{
+  font-family:var(--font-head);
+  font-size:24px;
+  font-weight:700;
+  color:var(--cyan);
+}
+
+.stat:nth-child(even) .stat-num{
+  color:var(--orange);
+}
+
+.stat-label{
+  font-size:11px;
+  letter-spacing:0.8px;
+  color:var(--text-faint);
+  margin-top:6px;
+  text-transform:uppercase;
+}
