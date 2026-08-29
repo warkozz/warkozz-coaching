@@ -1,0 +1,135 @@
+/* Cartes coachs et formations */
+.coach-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.coach-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:24px;
+  transition:border-color 0.15s ease;
+}
+
+.coach-card:hover{
+  border-color:var(--cyan);
+}
+
+.coach-avatar{
+  width:52px;
+  height:52px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#1e2338,#262c42);
+  margin-bottom:16px;
+}
+
+.coach-card h3{
+  font-size:15px;
+  margin-bottom:4px;
+}
+
+.coach-role{
+  font-size:12px;
+  color:var(--cyan);
+  margin-bottom:14px;
+  font-weight:600;
+}
+
+.coach-card:nth-child(2) .coach-role{
+  color:var(--orange);
+}
+
+.coach-card p{
+  font-size:13px;
+  color:var(--text-dim);
+  margin-bottom:18px;
+}
+
+.coach-card .btn{
+  width:100%;
+  padding:10px;
+  font-size:12px;
+}
+
+.formations{
+  display:grid;
+  grid-template-columns:1.2fr 1fr;
+  gap:20px;
+}
+
+.formation-box{
+  padding:28px;
+  border:1px solid var(--border);
+}
+
+.formation-box.filled{
+  background:var(--cyan);
+  color:var(--cyan-dark);
+}
+
+.formation-box.filled h3{
+  color:var(--cyan-dark);
+}
+
+.formation-box h3{
+  font-size:17px;
+  margin-bottom:12px;
+}
+
+.formation-box p{
+  font-size:13px;
+}
+
+.formation-box.filled p{
+  color:rgba(4,34,42,0.8);
+}
+
+.service-list li{
+  font-size:13px;
+  color:var(--text-dim);
+  padding:8px 0;
+  border-top:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.service-list li:first-child{
+  border-top:none;
+}
+
+.service-list li::before{
+  content:'';
+  width:5px;
+  height:5px;
+  background:var(--orange);
+  flex-shrink:0;
+}
+
+/* Cartes tips (page tips.html) */
+.tip-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  padding:22px;
+  margin-bottom:14px;
+}
+
+.tip-card h3{
+  font-size:15px;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.tip-num{
+  font-family:var(--font-head);
+  color:var(--cyan);
+  font-size:13px;
+}
+
+.tip-card p{
+  font-size:13px;
+  color:var(--text-dim);
+}
