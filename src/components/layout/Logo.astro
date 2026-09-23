@@ -1,0 +1,29 @@
+---
+import { site } from '../../content/site';
+---
+
+<a href="/" class="logo" aria-label={`${site.shortName} — accueil`}>
+  <span class="logo__mark">WK</span>
+  <span class="logo__text">{site.shortName}</span>
+</a>
+
+<style>
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo__mark {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--cyan), #0891a8);
+    color: var(--cyan-ink);
+    font: 700 15px var(--font-head);
+  }
+  .logo__text {
+    font: 700 20px var(--font-head);
+  }
+</style>
