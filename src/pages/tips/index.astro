@@ -1,0 +1,128 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import Icon from '../../components/ui/Icon.astro';
+import CtaBanner from '../../components/sections/CtaBanner.astro';
+
+const tips = (await getCollection('tips')).sort((a, b) => a.data.order - b.data.order);
+const categories = ['Tous', ...new Set(tips.map((t) => t.data.category))];
+---
+
+<BaseLayout title="Tips gratuits" description="Des conseils concrets pour progresser sur CS2 : aim, analyse, communication et positionnement.">
+  <PageHero
+    eyebrow="Tips gratuits"
+    title="Tips gratuits"
+    lead="Des conseils concrets pour progresser dès aujourd'hui — filtre par thème et lis ce qui t'intéresse."
+  >
+    <div class="filters" role="group" aria-label="Filtrer par thème">
+      {categories.map((c, i) => <button type="button" data-filter={c} class:list={['chip', { 'is-active': i === 0 }]}>{c}</button>)}
+    </div>
+  </PageHero>
+
+  <section class="section container">
+    <div class="grid grid--2">
+      {
+        tips.map((tip) => (
+          <article class="tip" data-category={tip.data.category}>
+            <div class="tip__top">
+              <span class="tip__num">{String(tip.data.order).padStart(2, '0')}</span>
+              <span class="tip__cat">{tip.data.category}</span>
+            </div>
+            <h3>{tip.data.title}</h3>
+            <p class="dim">{tip.data.excerpt}</p>
+            <a href={`/tips/${tip.id}`}>Lire le tip <Icon name="arrow" /></a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <CtaBanner title="Envie d'aller plus loin avec un vrai suivi ?" label="Voir les formations" href="/formations" />
+</BaseLayout>
+
+<script>
+  const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
+  const cards = document.querySelectorAll<HTMLElement>('.tip');
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const f = chip.dataset.filter;
+      chips.forEach((c) => c.classList.toggle('is-active', c === chip));
+      cards.forEach((card) => (card.hidden = f !== 'Tous' && card.dataset.category !== f));
+    }),
+  );
+</script>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .chip {
+    height: 40px;
+    padding: 0 20px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text-soft);
+    font: 500 15px var(--font-body);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .chip:hover {
+    background: var(--surface-strong);
+  }
+  .chip.is-active {
+    border-color: rgba(0, 217, 232, 0.35);
+    background: rgba(0, 217, 232, 0.1);
+    color: var(--cyan);
+  }
+  .tip {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .tip:hover {
+    transform: translateY(-3px);
+    border-color: rgba(0, 217, 232, 0.35);
+  }
+  .tip[hidden] {
+    display: none;
+  }
+  .tip__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .tip__num {
+    font: 700 36px/1 var(--font-head);
+    color: var(--cyan);
+  }
+  .tip__cat {
+    padding: 3px 12px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(0, 217, 232, 0.35);
+    background: rgba(0, 217, 232, 0.1);
+    color: var(--cyan);
+    font-size: 13px;
+  }
+  h3 {
+    font-size: 24px;
+    line-height: 1.25;
+  }
+  .tip a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    font-weight: 600;
+    color: var(--cyan);
+  }
+</style>
