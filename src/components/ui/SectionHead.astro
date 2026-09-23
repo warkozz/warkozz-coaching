@@ -1,0 +1,38 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  lead?: string;
+}
+
+const { eyebrow, title, lead } = Astro.props;
+---
+
+<div class="head">
+  {eyebrow && <span class="head__eyebrow">{eyebrow}</span>}
+  <h2 class="head__title">{title}</h2>
+  {lead && <p class="head__lead">{lead}</p>}
+</div>
+
+<style>
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .head__eyebrow {
+    font: 600 13px var(--font-body);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cyan);
+  }
+  .head__title {
+    font-size: clamp(28px, 4vw, 40px);
+  }
+  .head__lead {
+    max-width: 560px;
+    font-size: 18px;
+    color: var(--text-dim);
+  }
+</style>
