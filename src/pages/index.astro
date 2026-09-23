@@ -1,12 +1,249 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+import Card from '../components/ui/Card.astro';
+import Tag from '../components/ui/Tag.astro';
+import Icon from '../components/ui/Icon.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import CoachCard from '../components/sections/CoachCard.astro';
+import CtaBanner from '../components/sections/CtaBanner.astro';
+import StatsBento from '../components/sections/StatsBento.astro';
+import VideoFacade from '../components/sections/VideoFacade.astro';
+import { coachs } from '../content/coachs';
+
+const tipsPreview = [
+  'Fixe ta sensibilité une bonne fois pour toutes',
+  'Regarde tes propres démos',
+  'Communique avant de peek',
+];
+const gallery = ['Screen gameplay 1', 'Screen gameplay 2', 'Photo setup', 'Review de VOD', 'Session coaching'];
 ---
 
 <BaseLayout>
-  <section class="section container">
-    <h1>WarkozZ Coaching v2</h1>
-    <p class="dim">Page d'accueil en construction.</p>
-    <Button href="/formations">Réserver une session</Button>
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <Badge dot>Global Elite Coach</Badge>
+        <h1>Progresse avec un coach qui a fait le <span>grind</span> avant toi</h1>
+        <p class="hero__lead">
+          Coaching personnalisé CS2, review de VOD et suivi de progression — que tu joues en solo ou en team, du niveau
+          débutant jusqu'au global.
+        </p>
+        <div class="hero__ctas">
+          <Button href="/formations">Réserver une session <Icon name="arrow" /></Button>
+          <Button href="/quiz" variant="outline">Faire le quiz de niveau</Button>
+        </div>
+        <p class="hero__trust">
+          <span><b>2K3</b> Elo Faceit</span><i></i><span><b>3500h</b> de jeu</span><i></i><span><b>50+</b> élèves</span>
+        </p>
+      </div>
+      <VideoFacade youtubeId="u0418l-7ni8" title="Vidéo de présentation" />
+    </div>
   </section>
+
+  <StatsBento />
+
+  <section class="section container">
+    <div class="row-head">
+      <SectionHead eyebrow="L'équipe" title="Nos coachs" lead="Un aperçu de l'équipe — le détail complet et les réservations se font sur la page dédiée." />
+      <a class="more" href="/coachs">Toute l'équipe <Icon name="arrow" /></a>
+    </div>
+    <div class="grid grid--3">
+      {coachs.map((coach) => <CoachCard {coach} />)}
+    </div>
+  </section>
+
+  <section class="container duo">
+    <Card tone="orange" class="duo__quiz">
+      <Badge tone="orange">Nouveau · 2 minutes</Badge>
+      <h3>Quel coaching est fait pour toi ?</h3>
+      <p class="dim">Réponds à 5 questions sur ton niveau et tes objectifs, on te recommande le bon pack.</p>
+      <div class="duo__tags"><Tag>Solo</Tag><Tag>En équipe</Tag><Tag>Débutant</Tag><Tag>Compétitif</Tag></div>
+      <Button href="/quiz" variant="accent">Lancer le quiz <Icon name="arrow" /></Button>
+    </Card>
+    <Card class="duo__tips">
+      <div class="duo__tips-head">
+        <h3>Tips gratuits</h3>
+        <a class="more" href="/tips">Tous les tips <Icon name="arrow" /></a>
+      </div>
+      <ul>
+        {
+          tipsPreview.map((t, i) => (
+            <li>
+              <span>{String(i + 1).padStart(2, '0')}</span>
+              {t}
+            </li>
+          ))
+        }
+      </ul>
+    </Card>
+  </section>
+
+  <section class="section container">
+    <div class="row-head">
+      <SectionHead eyebrow="Galerie" title="Sessions en images" lead="Extraits de sessions, screens de gameplay et reviews de VOD." />
+      <a class="more" href="/galerie">Toute la galerie <Icon name="arrow" /></a>
+    </div>
+    <div class="gallery">
+      {gallery.map((label, i) => <div class:list={['ph', { 'ph--big': i === 0 }]}>{label}</div>)}
+    </div>
+  </section>
+
+  <CtaBanner title="Envie de progresser gratuitement ?" label="Accéder aux tips gratuits" href="/tips" />
 </BaseLayout>
+
+<style>
+  .hero {
+    padding-block: 96px;
+    background:
+      radial-gradient(700px 480px at 88% 25%, rgba(0, 217, 232, 0.17), transparent 70%),
+      radial-gradient(520px 420px at 4% 95%, rgba(255, 122, 26, 0.11), transparent 70%);
+  }
+  .hero__inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 64px;
+    align-items: center;
+  }
+  .hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+  h1 {
+    font-size: clamp(38px, 5vw, 60px);
+    line-height: 1.08;
+    letter-spacing: -0.015em;
+  }
+  h1 span {
+    color: var(--cyan);
+  }
+  .hero__lead {
+    max-width: 520px;
+    font-size: 18px;
+    color: var(--text-dim);
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+  }
+  .hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px;
+    color: var(--text-dim);
+  }
+  .hero__trust b {
+    color: var(--text);
+  }
+  .hero__trust i {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #5b6072;
+  }
+  .row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    font-weight: 600;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+  .duo {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    padding-block: 24px 88px;
+  }
+  .duo :global(.card) {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 40px;
+  }
+  .duo h3 {
+    font-size: 32px;
+  }
+  .duo__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .duo__quiz :global(.btn) {
+    align-self: flex-start;
+    margin-top: auto;
+  }
+  .duo__tips-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .duo__tips-head .more {
+    margin: 0;
+  }
+  .duo li {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .duo li span {
+    font: 700 22px var(--font-head);
+    color: var(--cyan);
+  }
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: 180px;
+    gap: 16px;
+  }
+  .ph {
+    display: flex;
+    align-items: flex-end;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: linear-gradient(135deg, #171b28, #10131c);
+    color: var(--text-faint);
+    font-size: 13px;
+  }
+  .ph--big {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  @media (max-width: 960px) {
+    .hero {
+      padding-block: 48px;
+    }
+    .hero__inner,
+    .duo {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 40px;
+    }
+    .row-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+    .gallery {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .duo :global(.card) {
+      padding: 28px;
+    }
+  }
+</style>

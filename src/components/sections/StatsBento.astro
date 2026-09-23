@@ -1,0 +1,94 @@
+---
+import { stats } from '../../content/coachs';
+---
+
+<section class="container stats">
+  {
+    stats.map((s, i) => (
+      <div class:list={['stat', { 'stat--big': i === 0 }]}>
+        <div class="stat__value" data-countup={s.value}>{s.value}</div>
+        <div class="stat__label">{s.label}</div>
+      </div>
+    ))
+  }
+</section>
+
+<script>
+  const els = document.querySelectorAll<HTMLElement>('[data-countup]');
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        io.unobserve(el);
+        const raw = el.dataset.countup ?? '';
+        const m = raw.match(/^(\d+)(.*)$/);
+        if (!m || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const end = Number(m[1]);
+        const start = performance.now();
+        const tick = (now: number) => {
+          const p = Math.min((now - start) / 900, 1);
+          el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + m[2];
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    },
+    { threshold: 0.4 },
+  );
+  els.forEach((el) => io.observe(el));
+</script>
+
+<style>
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+    padding-block: 48px;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    min-height: 152px;
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  }
+  .stat--big {
+    grid-column: span 2;
+  }
+  .stat__value {
+    font: 700 56px/1 var(--font-head);
+    background: linear-gradient(90deg, var(--cyan), #7ff0f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .stat--big .stat__value {
+    font-size: 96px;
+  }
+  .stat__label {
+    color: var(--text-dim);
+  }
+  @media (max-width: 960px) {
+    .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .stat--big {
+      grid-column: 1 / -1;
+    }
+    .stat {
+      padding: 20px;
+      min-height: 112px;
+    }
+    .stat__value {
+      font-size: 36px;
+    }
+    .stat--big .stat__value {
+      font-size: 64px;
+    }
+  }
+</style>
