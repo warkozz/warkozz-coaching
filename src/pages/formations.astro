@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import Card from '../components/ui/Card.astro';
+import Tag from '../components/ui/Tag.astro';
+import Icon from '../components/ui/Icon.astro';
+import PricingCard from '../components/sections/PricingCard.astro';
+import CtaBanner from '../components/sections/CtaBanner.astro';
+import { plans, services, steps, referral } from '../content/pricing';
+import { faq } from '../content/faq';
+---
+
+<BaseLayout
+  title="Formations et services"
+  description="Cours pour débutants et amateurs, coaching individuel ou en groupe, review de VOD et évaluation de niveau."
+>
+  <PageHero
+    eyebrow="Formations"
+    title="Formations et services"
+    lead="Des cours accessibles à tous les niveaux, sans prérequis, et des services de coaching adaptés à ton objectif."
+  />
+
+  <section class="container boxes">
+    <Card tone="cyan">
+      <h3>Des cours pour débutants et amateurs</h3>
+      <p class="dim">
+        Aucune connaissance préalable requise. Apprends à jouer en équipe, progresse sur les fondamentaux du jeu, et guide
+        ensuite tes propres teammates vers la victoire. Nos tutoriels couvrent l'aim, le game sense, la communication et la
+        lecture de round.
+      </p>
+    </Card>
+    <Card>
+      <h3>Nos services</h3>
+      <ul class="services">
+        {services.map((s) => <li><Icon name="check" /> {s}</li>)}
+      </ul>
+    </Card>
+  </section>
+
+  <section class="section section--raised">
+    <div class="container">
+      <SectionHead eyebrow="Process" title="Comment ça marche" lead="4 étapes, du premier contact jusqu'à la séance." />
+      <ol class="steps">
+        {
+          steps.map((text, i) => (
+            <li>
+              <div class="steps__num">{String(i + 1).padStart(2, '0')}</div>
+              <p>{text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section container" id="tarifs">
+    <SectionHead eyebrow="Tarifs" title="Nos tarifs" lead="Des formules simples, sans engagement." />
+    <div class="grid grid--3 plans">
+      {plans.map((plan) => <PricingCard {plan} />)}
+    </div>
+    <div class="referral"><Tag tone="orange">Parrainage</Tag><span>{referral}</span></div>
+  </section>
+
+  <section class="section section--raised">
+    <div class="container booking">
+      <div>
+        <SectionHead eyebrow="Réservation" title="Choisis ton créneau en ligne" lead="Un widget de réservation intégré directement à la page." />
+      </div>
+      <Card class="booking__slot">
+        <!-- TODO: remplacer par l'embed Cal.com : <Cal namespace="..." calLink="ton-pseudo/session" /> -->
+        <p class="dim">Emplacement du calendrier de réservation en ligne (Cal.com).</p>
+        <a class="booking__fallback" href="https://discord.gg/8s3e7tH8" target="_blank" rel="noopener noreferrer">
+          En attendant, planifie ta séance sur Discord <Icon name="arrow" />
+        </a>
+      </Card>
+    </div>
+  </section>
+
+  <section class="section container" id="faq">
+    <SectionHead eyebrow="FAQ" title="Questions fréquentes" />
+    <div class="faq">
+      {
+        faq.map((item, i) => (
+          <details open={i === 0}>
+            <summary>
+              {item.q}
+              <span class="faq__plus"><Icon name="plus" size={20} /></span>
+              <span class="faq__minus"><Icon name="minus" size={20} /></span>
+            </summary>
+            <p class="dim">{item.a}</p>
+          </details>
+        ))
+      }
+    </div>
+  </section>
+
+  <CtaBanner title="Prêt à choisir ta formation ?" label="Réserver une session" href="#tarifs" />
+</BaseLayout>
+
+<style>
+  .boxes {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 24px;
+    padding-bottom: 88px;
+  }
+  .boxes :global(.card) {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 40px;
+  }
+  h3 {
+    font-size: 28px;
+  }
+  .services {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 17px;
+  }
+  .services li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .services :global(svg),
+  .faq :global(svg) {
+    color: var(--cyan);
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .steps li {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .steps__num {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 217, 232, 0.4);
+    background: rgba(0, 217, 232, 0.12);
+    color: var(--cyan);
+    font: 700 20px var(--font-head);
+  }
+  .steps p {
+    font-size: 17px;
+    color: var(--text-soft);
+  }
+  .plans {
+    align-items: stretch;
+  }
+  .referral {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 32px;
+    padding: 20px 32px;
+    border: 1px solid rgba(255, 122, 26, 0.35);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(90deg, rgba(255, 122, 26, 0.14), rgba(255, 122, 26, 0.03));
+  }
+  .booking {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .booking__slot {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 260px;
+    align-items: flex-start;
+    justify-content: center;
+    border-style: dashed;
+  }
+  .booking__fallback {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--cyan);
+  }
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  details {
+    padding: 24px 28px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  }
+  details[open] {
+    border-color: rgba(0, 217, 232, 0.3);
+  }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    list-style: none;
+    cursor: pointer;
+    font: 600 20px var(--font-head);
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  details p {
+    max-width: 760px;
+    margin-top: 12px;
+  }
+  .faq__minus,
+  details[open] .faq__plus {
+    display: none;
+  }
+  details[open] .faq__minus {
+    display: block;
+  }
+  @media (max-width: 960px) {
+    .boxes,
+    .booking {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+    .boxes :global(.card) {
+      padding: 28px;
+    }
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 640px) {
+    .steps {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>
