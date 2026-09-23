@@ -1,11 +1,12 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
 ---
-<html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <title>WarkozZ Coaching</title>
-  </head>
-  <body>
-    <h1>WarkozZ Coaching v2 — en construction</h1>
-  </body>
-</html>
+
+<BaseLayout>
+  <section class="section container">
+    <h1>WarkozZ Coaching v2</h1>
+    <p class="dim">Page d'accueil en construction.</p>
+    <Button href="/formations">Réserver une session</Button>
+  </section>
+</BaseLayout>
