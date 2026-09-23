@@ -1,76 +1,48 @@
-# WarkozZ Coaching — site vitrine
+# WarkozZ Coaching — v2
 
-Site vitrine pour une activité de coaching CS2 : présentation, coachs, formations, galerie et tips gratuits.
+Site vitrine d'une activité de coaching CS2 : coachs, formations et tarifs, communauté, galerie, tips gratuits et quiz de niveau.
+Construit avec [Astro](https://astro.build) (build statique, 0 JS par défaut).
 
-## Structure du projet
+## Démarrer
 
-```
-warkozz-coaching/
-├── index.html          Page d'accueil
-├── coachs.html          Spotlight coach principal (preuve sociale) + toute l'équipe
-├── formations.html      Formations, process de réservation et tarifs
-├── communaute.html      Twitch, dernières vidéos, communauté Discord partenaire
-├── galerie.html          Photos et vidéos
-├── tips.html             Tips gratuits
-├── login.html            Connexion à l'espace élève
-└── assets/
-    ├── css/
-    │   ├── variables.css    Couleurs, polices, valeurs réutilisées partout
-    │   ├── reset.css        Réinitialisation de base du navigateur
-    │   ├── base.css         Typographie et conteneurs génériques
-    │   ├── buttons.css      Boutons et badges (.btn, .eyebrow)
-    │   ├── header.css       En-tête et navigation
-    │   ├── footer.css       Pied de page
-    │   ├── hero.css         Section hero + hero des pages secondaires
-    │   ├── stats.css        Bandeau de statistiques (page d'accueil)
-    │   ├── social-proof.css Spotlight coach : stats, structures, accomplissements
-    │   ├── pricing.css      Étapes de réservation et grille tarifaire
-    │   ├── videos.css       Bandeau Twitch, grille vidéos, bloc communauté
-    │   ├── cards.css        Cartes coachs, formations, tips
-    │   ├── gallery.css      Grille photos/vidéos
-    │   ├── forms.css        Formulaire de connexion
-    │   ├── cta.css          Bandeaux d'appel à l'action
-    │   └── responsive.css   Toutes les media queries (chargé en dernier)
-    ├── js/
-    │   └── main.js         Menu mobile
-    ├── images/             Placeholders — remplace par tes vraies images (.webp recommandé)
-    └── videos/             Placeholders — remplace par tes vraies vidéos (.mp4 H.264 recommandé)
+```bash
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # génère dist/
+npm run preview  # prévisualise le build
 ```
 
-## Pourquoi le CSS est découpé ainsi
+## Structure
 
-Chaque fichier a une seule responsabilité (composant ou zone du site). Chaque page HTML n'importe que les fichiers CSS dont elle a réellement besoin, toujours dans le même ordre :
-
-`variables → reset → base → buttons → header → footer → (fichiers spécifiques à la page) → responsive`
-
-`responsive.css` est toujours chargé en dernier pour que ses media queries aient la priorité sur les styles de base.
-
-## Remplacer les médias placeholders
-
-Chaque emplacement image/vidéo est commenté directement dans le HTML avec la syntaxe exacte à utiliser, par exemple dans `galerie.html` :
-
-```html
-<!-- Remplacer par une vraie image -->
-<div class="gallery-item">Screen gameplay 1</div>
+```
+src/
+├── layouts/BaseLayout.astro      Head/SEO, header, footer, slot
+├── components/
+│   ├── layout/                   Header, Footer, Logo, PageHero
+│   ├── ui/                       Button, Card, Badge, Tag, SectionHead, Icon
+│   └── sections/                 CoachCard, PricingCard, StatsBento, VideoFacade, CtaBanner
+├── content/
+│   ├── site.ts                   Nom, navigation, liens sociaux, colonnes du footer
+│   ├── coachs.ts · pricing.ts · faq.ts · quiz.ts · community.ts · gallery.ts
+│   └── tips/*.md                 Un fichier Markdown par tip (content collection)
+├── pages/                        index, coachs, formations, communaute, galerie, quiz, login, tips/
+└── styles/                       tokens.css (couleurs, rayons, polices), base.css, utilities.css
+public/                           favicon, images/, videos/
 ```
 
-devient :
+## Modifier le contenu
 
-```html
-<div class="gallery-item"><img src="assets/images/mon-screen.webp" alt="Description"></div>
-```
+- **Textes, tarifs, coachs, FAQ, quiz** : édite les fichiers de `src/content/` — pas besoin de toucher aux pages.
+- **Ajouter un tip** : crée `src/content/tips/mon-tip.md` avec le frontmatter `title`, `order`, `category`, `excerpt`.
+- **Ajouter une page** : crée `src/pages/ma-page.astro` en utilisant `BaseLayout` et `PageHero`, puis ajoute le lien dans `navLinks` (`src/content/site.ts`).
+- **Design** : les couleurs et rayons sont dans `src/styles/tokens.css`.
 
-## Ajouter une nouvelle page
+## À compléter avant la mise en ligne
 
-1. Copie une page existante proche du besoin (ex. `formations.html` pour une nouvelle page de contenu).
-2. Garde le même bloc `<head>` (mêmes fichiers CSS dans le même ordre).
-3. Ajoute le lien vers la nouvelle page dans `.nav-links` sur **toutes** les pages, et dans le footer si pertinent.
-
-## Points de vigilance avant mise en ligne
-
-- Les photos de joueurs pro trouvées dans l'ancien projet (zywoo, NaVi, etc.) ne doivent pas être réutilisées : ce sont des photos de presse protégées par droit d'auteur.
-- Le formulaire de connexion (`login.html`) n'est pas connecté à un backend — à brancher sur un vrai système d'authentification avant mise en production.
-- Penser à compresser les images (.webp) et vidéos (.mp4 H.264) avant de les intégrer, pour garder un temps de chargement correct.
-- `formations.html` contient un emplacement `.calendar-placeholder` à remplacer par un vrai widget de réservation (Calendly, Cal.com, Styled Calendar...).
-- `communaute.html` contient 6 blocs `.video-thumb` à remplacer par de vrais embeds YouTube (`<iframe src="https://www.youtube.com/embed/ID" loading="lazy"></iframe>`), et un lien Twitch factice (`#`) à remplacer par la vraie chaîne.
-- Les liens vers les structures partenaires et les réseaux sociaux (Twitch, YouTube) dans `coachs.html` sont des placeholders (`#`) à compléter.
+- `formations.astro` : brancher le widget Cal.com à l'emplacement `booking__slot`.
+- `content/community.ts` : ID des vraies vidéos YouTube, lien Twitch et chaîne YouTube.
+- `content/gallery.ts` : vraies images dans `public/images/` (.webp recommandé).
+- `content/coachs.ts` : vraies structures, accomplissements et liens (Steam, Twitch, YouTube).
+- `login.astro` : formulaire non branché à un backend, à relier à un vrai système d'authentification.
+- Ne pas réutiliser de photos de joueurs pro protégées par le droit d'auteur.
+- Ajouter le sitemap (`@astrojs/sitemap`) une fois l'URL de production connue.
