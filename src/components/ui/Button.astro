@@ -5,13 +5,14 @@ interface Props {
   size?: 'md' | 'sm';
   block?: boolean;
   class?: string;
+  [attr: string]: unknown;
 }
 
-const { href, variant = 'primary', size = 'md', block = false, class: className = '' } = Astro.props;
+const { href, variant = 'primary', size = 'md', block = false, class: className = '', ...attrs } = Astro.props;
 const Tag = href ? 'a' : 'button';
 ---
 
-<Tag href={href} class:list={['btn', `btn--${variant}`, `btn--${size}`, { 'btn--block': block }, className]}>
+<Tag href={href} {...attrs} class:list={['btn', `btn--${variant}`, `btn--${size}`, { 'btn--block': block }, className]}>
   <slot />
 </Tag>
 
