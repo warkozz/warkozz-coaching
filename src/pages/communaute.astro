@@ -1,0 +1,152 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import Card from '../components/ui/Card.astro';
+import Button from '../components/ui/Button.astro';
+import Icon from '../components/ui/Icon.astro';
+import VideoFacade from '../components/sections/VideoFacade.astro';
+import CtaBanner from '../components/sections/CtaBanner.astro';
+import { twitch, channelUrl, videos, partner } from '../content/community';
+---
+
+<BaseLayout title="Communauté" description="Coaching en direct, gameplay commenté, dernières vidéos et communauté partenaire.">
+  <PageHero eyebrow="Communauté" title="Communauté" lead="Coaching en direct, gameplay commenté, dernières vidéos et communauté partenaire." />
+
+  <section class="container">
+    <Card tone="cyan" class="twitch">
+      <div class="twitch__left">
+        <span class="live-dot" aria-hidden="true"></span>
+        <div>
+          <h3>{twitch.title}</h3>
+          <p class="dim">{twitch.sub}</p>
+        </div>
+      </div>
+      <Button href={twitch.url}>Voir sur Twitch <Icon name="arrow" /></Button>
+    </Card>
+  </section>
+
+  <section class="section container">
+    <SectionHead eyebrow="YouTube" title="Dernières vidéos" lead="Extraits de coaching, analyses et conseils." />
+    <div class="grid grid--3 videos">
+      {
+        videos.map((v) =>
+          v.youtubeId ? (
+            <VideoFacade youtubeId={v.youtubeId} title={v.title} />
+          ) : (
+            <div class="video-ph">
+              <span>{v.title} à venir</span>
+            </div>
+          )
+        )
+      }
+    </div>
+    <a class="more" href={channelUrl}>Voir la chaîne YouTube complète <Icon name="arrow" /></a>
+  </section>
+
+  <section class="section section--raised">
+    <div class="container">
+      <SectionHead eyebrow="Discord" title="Communauté partenaire" lead="La communauté Discord recommandée pour jouer et progresser." />
+      <Card class="partner">
+        <div class="partner__logo" aria-hidden="true">D</div>
+        <div class="partner__text">
+          <h3>{partner.title}</h3>
+          <p class="dim">{partner.text}</p>
+        </div>
+        <Button href={partner.url} variant="outline">Rejoindre</Button>
+      </Card>
+    </div>
+  </section>
+
+  <CtaBanner title="Envie d'un suivi personnalisé plutôt qu'en direct ?" label="Voir les formations" href="/formations" />
+</BaseLayout>
+
+<style>
+  .container :global(.twitch) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 32px 40px;
+  }
+  .twitch__left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .twitch h3 {
+    font-size: 24px;
+  }
+  .live-dot {
+    flex: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #ff3b3b;
+    box-shadow: 0 0 0 0 rgba(255, 59, 59, 0.6);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    70% {
+      box-shadow: 0 0 0 12px rgba(255, 59, 59, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(255, 59, 59, 0);
+    }
+  }
+  .videos :global(.video) {
+    height: 210px;
+  }
+  .video-ph {
+    display: grid;
+    place-items: center;
+    height: 210px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, #171b28, #10131c);
+    color: var(--text-faint);
+    font-size: 14px;
+  }
+  .more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 32px;
+    font-weight: 600;
+    color: var(--cyan);
+  }
+  .container :global(.partner) {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 36px 40px;
+  }
+  .partner__logo {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 80px;
+    height: 80px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, rgba(0, 217, 232, 0.35), rgba(255, 122, 26, 0.25));
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    font: 700 30px var(--font-head);
+  }
+  .partner__text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .partner h3 {
+    font-size: 24px;
+  }
+  @media (max-width: 820px) {
+    .container :global(.twitch),
+    .container :global(.partner) {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 24px;
+    }
+  }
+</style>
