@@ -1,0 +1,194 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/ui/Button.astro';
+import Badge from '../components/ui/Badge.astro';
+import Icon from '../components/ui/Icon.astro';
+import PricingCard from '../components/sections/PricingCard.astro';
+import { plans } from '../content/pricing';
+import { quiz, planKeys } from '../content/quiz';
+---
+
+<BaseLayout title="Quiz de niveau" description="Réponds à 5 questions et découvre le pack de coaching CS2 adapté à ton niveau et à tes objectifs.">
+  <section class="quiz container" data-quiz={JSON.stringify(quiz)} data-keys={JSON.stringify(planKeys)}>
+    <div class="quiz__step" id="quiz-step">
+      <div class="quiz__meta"><span id="quiz-count">Question 1 sur {quiz.length}</span><span>Quiz de niveau</span></div>
+      <div class="quiz__bars" aria-hidden="true">{quiz.map(() => <i></i>)}</div>
+      <h1 id="quiz-question"></h1>
+      <div class="quiz__options" id="quiz-options" role="radiogroup" aria-labelledby="quiz-question"></div>
+      <div class="quiz__nav">
+        <Button variant="outline" id="quiz-back">Retour</Button>
+        <Button id="quiz-next">Continuer <Icon name="arrow" /></Button>
+      </div>
+    </div>
+
+    <div class="quiz__result" id="quiz-result" hidden>
+      <Badge tone="orange">Ton résultat</Badge>
+      <h1>On te recommande le pack <span id="quiz-plan-name"></span></h1>
+      {plans.map((plan, i) => <div class="quiz__plan" data-plan={planKeys[i]} hidden><PricingCard {plan} /></div>)}
+      <Button href="/quiz" variant="outline">Refaire le quiz</Button>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-quiz]')!;
+  const quiz = JSON.parse(root.dataset.quiz!) as { question: string; options: { label: string; scores: Record<string, number> }[] }[];
+  const keys = JSON.parse(root.dataset.keys!) as string[];
+  const names: Record<string, string> = { classique: 'Classique', pack: '5 heures', equipe: 'équipe' };
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const answers: number[] = [];
+  let index = 0;
+
+  function render() {
+    const q = quiz[index];
+    $('quiz-count').textContent = `Question ${index + 1} sur ${quiz.length}`;
+    $('quiz-question').textContent = q.question;
+    document.querySelectorAll('.quiz__bars i').forEach((bar, i) => bar.classList.toggle('on', i <= index));
+    const box = $('quiz-options');
+    box.replaceChildren(
+      ...q.options.map((opt, i) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'opt' + (answers[index] === i ? ' is-selected' : '');
+        btn.setAttribute('role', 'radio');
+        btn.setAttribute('aria-checked', String(answers[index] === i));
+        btn.innerHTML = '<span class="opt__ring"></span>';
+        btn.append(opt.label);
+        btn.addEventListener('click', () => {
+          answers[index] = i;
+          render();
+        });
+        return btn;
+      }),
+    );
+    ($('quiz-back') as HTMLButtonElement).style.visibility = index === 0 ? 'hidden' : 'visible';
+    ($('quiz-next') as HTMLButtonElement).disabled = answers[index] === undefined;
+  }
+
+  function finish() {
+    const totals: Record<string, number> = Object.fromEntries(keys.map((k) => [k, 0]));
+    answers.forEach((a, qi) => Object.entries(quiz[qi].options[a].scores).forEach(([k, v]) => (totals[k] += v)));
+    const best = keys.reduce((a, b) => (totals[b] > totals[a] ? b : a), 'pack');
+    $('quiz-step').hidden = true;
+    $('quiz-result').hidden = false;
+    $('quiz-plan-name').textContent = names[best];
+    document.querySelectorAll<HTMLElement>('.quiz__plan').forEach((p) => (p.hidden = p.dataset.plan !== best));
+  }
+
+  $('quiz-back').addEventListener('click', () => {
+    if (index > 0) index--;
+    render();
+  });
+  $('quiz-next').addEventListener('click', () => {
+    if (index < quiz.length - 1) {
+      index++;
+      render();
+    } else finish();
+  });
+  render();
+</script>
+
+<style>
+  .quiz {
+    display: flex;
+    justify-content: center;
+    padding-block: 72px 96px;
+    background: radial-gradient(640px 420px at 50% 0%, rgba(0, 217, 232, 0.14), transparent 70%);
+  }
+  .quiz__step,
+  .quiz__result {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    width: 100%;
+    max-width: 720px;
+  }
+  .quiz__result {
+    align-items: center;
+    text-align: center;
+  }
+  .quiz__result[hidden],
+  .quiz__step[hidden],
+  .quiz__plan[hidden] {
+    display: none;
+  }
+  .quiz__meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+  .quiz__bars {
+    display: flex;
+    gap: 8px;
+  }
+  .quiz__bars i {
+    flex: 1;
+    height: 6px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.12);
+    transition: background 0.2s;
+  }
+  .quiz__bars i.on {
+    background: var(--cyan);
+  }
+  h1 {
+    font-size: clamp(28px, 4vw, 40px);
+  }
+  h1 span {
+    color: var(--cyan);
+  }
+  .quiz__options {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .quiz__options :global(.opt) {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 68px;
+    padding: 12px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    color: var(--text);
+    font: 500 18px var(--font-body);
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .quiz__options :global(.opt:hover) {
+    border-color: var(--border-strong);
+  }
+  .quiz__options :global(.opt.is-selected) {
+    border-color: var(--cyan);
+    background: rgba(0, 217, 232, 0.12);
+    box-shadow: 0 0 32px rgba(0, 217, 232, 0.18);
+  }
+  .quiz__options :global(.opt__ring) {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+  }
+  .quiz__options :global(.is-selected .opt__ring) {
+    border-color: var(--cyan);
+    background: radial-gradient(circle, var(--cyan) 45%, transparent 50%);
+  }
+  .quiz__nav {
+    display: flex;
+    justify-content: space-between;
+  }
+  .quiz__plan {
+    width: min(100%, 380px);
+    text-align: left;
+  }
+  .quiz :global(.btn:disabled) {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+  }
+</style>

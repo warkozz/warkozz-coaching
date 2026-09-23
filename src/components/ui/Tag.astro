@@ -1,0 +1,39 @@
+---
+interface Props {
+  tone?: 'neutral' | 'cyan' | 'orange';
+  active?: boolean;
+  href?: string;
+}
+
+const { tone = 'neutral', active = false, href } = Astro.props;
+const Element = href ? 'a' : 'span';
+---
+
+<Element href={href} class:list={['tag', `tag--${active ? 'cyan' : tone}`]}>
+  <slot />
+</Element>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    height: 36px;
+    padding: 0 16px;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-soft);
+  }
+  .tag--cyan {
+    border-color: rgba(0, 217, 232, 0.35);
+    background: rgba(0, 217, 232, 0.1);
+    color: var(--cyan);
+  }
+  .tag--orange {
+    border-color: rgba(255, 122, 26, 0.4);
+    background: rgba(255, 122, 26, 0.12);
+    color: #ff9a4d;
+  }
+</style>

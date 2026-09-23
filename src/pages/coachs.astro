@@ -1,0 +1,181 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/layout/PageHero.astro';
+import SectionHead from '../components/ui/SectionHead.astro';
+import Card from '../components/ui/Card.astro';
+import Tag from '../components/ui/Tag.astro';
+import CoachCard from '../components/sections/CoachCard.astro';
+import CtaBanner from '../components/sections/CtaBanner.astro';
+import { coachs, spotlight } from '../content/coachs';
+---
+
+<BaseLayout
+  title="Nos coachs"
+  description="Découvre l'équipe de coachs CS2 : awper, in-game leader et entry fragger, pour un accompagnement adapté à ton style de jeu."
+>
+  <PageHero
+    eyebrow="Coachs"
+    title="Nos coachs"
+    lead="Chaque coach a un rôle et une spécialité précise, pour un accompagnement qui colle à ton style de jeu."
+  />
+
+  <section class="container spotlight-wrap">
+    <Card tone="cyan" class="spotlight">
+      <div class="spotlight__main">
+        <div class="spotlight__id">
+          <div class="spotlight__avatar">{spotlight.initials}</div>
+          <div>
+            <div class="spotlight__name">
+              <h2>{spotlight.name}</h2>
+              <a href={spotlight.steamUrl} target="_blank" rel="noopener noreferrer">Profil Steam ↗</a>
+            </div>
+            <p class="dim">{spotlight.tagline}</p>
+          </div>
+        </div>
+        <p class="dim bio">{spotlight.bio}</p>
+        <div class="block">
+          <span class="label">Structures avec lesquelles j'ai travaillé</span>
+          <div class="tags">{spotlight.structures.map((s) => <Tag>{s}</Tag>)}</div>
+        </div>
+        <div class="block">
+          <span class="label">Accomplissements</span>
+          <div class="tags">
+            {spotlight.achievements.map((a, i) => <Tag tone={i === 0 ? 'orange' : 'cyan'}>{a}</Tag>)}
+          </div>
+        </div>
+        <div class="tags links">
+          {spotlight.links.map((l) => <Tag href={l.href}>{l.label}</Tag>)}
+        </div>
+      </div>
+      <div class="spotlight__stats">
+        {
+          spotlight.stats.map((s) => (
+            <div class="sstat">
+              <div class="sstat__value">{s.value}</div>
+              <div class="dim">{s.label}</div>
+            </div>
+          ))
+        }
+      </div>
+    </Card>
+  </section>
+
+  <section class="section container">
+    <SectionHead eyebrow="L'équipe" title="Toute l'équipe" />
+    <div class="grid grid--3">
+      {coachs.map((coach) => <CoachCard {coach} full cta="Réserver avec ce coach" href="/formations" />)}
+    </div>
+  </section>
+
+  <CtaBanner title="Pas sûr du coach qui te correspond ?" label="Faire le quiz de niveau" href="/quiz" />
+</BaseLayout>
+
+<style>
+  .spotlight-wrap {
+    padding-bottom: 24px;
+  }
+  .spotlight-wrap :global(.spotlight) {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 48px;
+    padding: 40px;
+  }
+  .spotlight__main {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .spotlight__id {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .spotlight__avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 112px;
+    height: 112px;
+    border-radius: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: linear-gradient(135deg, rgba(0, 217, 232, 0.35), rgba(255, 122, 26, 0.25));
+    font: 700 38px var(--font-head);
+  }
+  .spotlight__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 6px;
+  }
+  .spotlight__name h2 {
+    font-size: 40px;
+  }
+  .spotlight__name a {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--cyan);
+  }
+  .bio {
+    font-size: 17px;
+  }
+  .block {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .label {
+    font: 600 13px var(--font-body);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .spotlight__stats {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .sstat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    padding: 28px 32px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: rgba(255, 255, 255, 0.04);
+  }
+  .sstat__value {
+    font: 700 56px/1 var(--font-head);
+    background: linear-gradient(90deg, var(--cyan), #7ff0f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  @media (max-width: 960px) {
+    .spotlight-wrap :global(.spotlight) {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 24px;
+      gap: 32px;
+    }
+    .spotlight__id {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .spotlight__stats {
+      flex-direction: row;
+    }
+    .sstat {
+      padding: 18px;
+    }
+    .sstat__value {
+      font-size: 32px;
+    }
+  }
+</style>

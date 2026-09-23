@@ -1,0 +1,89 @@
+---
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import type { Plan } from '../../content/pricing';
+
+interface Props {
+  plan: Plan;
+}
+
+const { plan } = Astro.props;
+---
+
+<div class:list={['plan', { 'plan--featured': plan.featured }]}>
+  {plan.featured && <span class="plan__badge">Populaire</span>}
+  <div class="plan__name">{plan.name}</div>
+  <div class="plan__price">{plan.amount}<span> {plan.unit}</span></div>
+  <ul>
+    {
+      plan.features.map((f) => (
+        <li>
+          <Icon name="check" /> {f}
+        </li>
+      ))
+    }
+  </ul>
+  <Button href="/login" variant={plan.featured ? 'primary' : 'outline'} block>Réserver</Button>
+</div>
+
+<style>
+  .plan {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: 100%;
+    padding: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  }
+  .plan--featured {
+    border-color: rgba(0, 217, 232, 0.55);
+    box-shadow: 0 0 60px rgba(0, 217, 232, 0.16);
+    background:
+      radial-gradient(360px 240px at 50% 0%, rgba(0, 217, 232, 0.16), transparent 70%),
+      linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.02));
+  }
+  .plan__badge {
+    position: absolute;
+    top: -16px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 16px;
+    border-radius: var(--radius-pill);
+    background: var(--cyan);
+    color: var(--cyan-ink);
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .plan__name {
+    font: 600 20px var(--font-head);
+    color: var(--text-dim);
+  }
+  .plan__price {
+    font: 700 60px/1 var(--font-head);
+  }
+  .plan__price span {
+    font: 500 18px var(--font-body);
+    color: var(--text-faint);
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+  li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-soft);
+  }
+  li :global(svg) {
+    color: var(--cyan);
+  }
+  .plan :global(.btn) {
+    margin-top: auto;
+  }
+</style>

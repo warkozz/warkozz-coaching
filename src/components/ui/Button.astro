@@ -1,0 +1,66 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline' | 'accent';
+  size?: 'md' | 'sm';
+  block?: boolean;
+  class?: string;
+  [attr: string]: unknown;
+}
+
+const { href, variant = 'primary', size = 'md', block = false, class: className = '', ...attrs } = Astro.props;
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag href={href} {...attrs} class:list={['btn', `btn--${variant}`, `btn--${size}`, { 'btn--block': block }, className]}>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 26px;
+    border: 0;
+    border-radius: var(--radius-md);
+    font: 600 16px var(--font-body);
+    cursor: pointer;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.2s ease,
+      background 0.2s ease;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn--sm {
+    height: 42px;
+    padding: 0 20px;
+    font-size: 15px;
+    border-radius: var(--radius-sm);
+  }
+  .btn--block {
+    width: 100%;
+  }
+  .btn--primary {
+    background: var(--cyan);
+    color: var(--cyan-ink);
+    box-shadow: var(--glow-cyan);
+  }
+  .btn--accent {
+    background: var(--orange);
+    color: var(--orange-ink);
+    box-shadow: var(--glow-orange);
+  }
+  .btn--outline {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border-strong);
+  }
+  .btn--outline:hover {
+    background: var(--surface-strong);
+  }
+</style>

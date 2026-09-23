@@ -1,0 +1,75 @@
+---
+import Card from '../ui/Card.astro';
+import Icon from '../ui/Icon.astro';
+import type { Coach } from '../../content/coachs';
+
+interface Props {
+  coach: Coach;
+  cta?: string;
+  href?: string;
+  full?: boolean;
+}
+
+const { coach, cta = 'Voir le profil', href = '/coachs', full = false } = Astro.props;
+---
+
+<Card class="coach">
+  <div class="coach__top">
+    <div class="coach__avatar">{coach.initials}</div>
+    <div>
+      <h3>{coach.name}</h3>
+      <span class="coach__role">{coach.role}</span>
+    </div>
+  </div>
+  <p class="dim">{full ? coach.bio : coach.summary}</p>
+  <a class="coach__link" href={href}>{cta} <Icon name="arrow" /></a>
+</Card>
+
+<style>
+  .coach {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    height: 100%;
+  }
+  .coach__top {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .coach__avatar {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: linear-gradient(135deg, rgba(0, 217, 232, 0.35), rgba(255, 122, 26, 0.25));
+    font: 700 26px var(--font-head);
+  }
+  h3 {
+    font-size: 22px;
+  }
+  .coach__role {
+    display: inline-block;
+    margin-top: 6px;
+    padding: 3px 12px;
+    border-radius: var(--radius-pill);
+    border: 1px solid rgba(0, 217, 232, 0.35);
+    background: rgba(0, 217, 232, 0.1);
+    color: var(--cyan);
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .coach__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    font-weight: 600;
+    color: var(--cyan);
+  }
+  .coach__link:hover {
+    text-decoration: underline;
+  }
+</style>

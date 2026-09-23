@@ -1,0 +1,42 @@
+---
+interface Props {
+  tone?: 'cyan' | 'orange';
+  dot?: boolean;
+}
+
+const { tone = 'cyan', dot = false } = Astro.props;
+---
+
+<span class:list={['badge', `badge--${tone}`]}>
+  {dot && <span class="badge__dot" />}
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 7px 14px;
+    border-radius: var(--radius-pill);
+    font: 600 12px var(--font-body);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid rgba(0, 217, 232, 0.3);
+    background: rgba(0, 217, 232, 0.08);
+    color: var(--cyan);
+  }
+  .badge--orange {
+    border-color: rgba(255, 122, 26, 0.35);
+    background: rgba(255, 122, 26, 0.1);
+    color: #ff9a4d;
+  }
+  .badge__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 10px currentColor;
+  }
+</style>

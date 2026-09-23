@@ -1,0 +1,38 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/layout/PageHero.astro';
+import CtaBanner from '../../components/sections/CtaBanner.astro';
+
+export async function getStaticPaths() {
+  const tips = await getCollection('tips');
+  return tips.map((tip) => ({ params: { slug: tip.id }, props: { tip } }));
+}
+
+const { tip } = Astro.props;
+const { Content } = await render(tip);
+---
+
+<BaseLayout title={tip.data.title} description={tip.data.excerpt}>
+  <PageHero eyebrow={`Tip ${String(tip.data.order).padStart(2, '0')} · ${tip.data.category}`} title={tip.data.title} />
+  <section class="container article">
+    <Content />
+    <a class="back" href="/tips">← Tous les tips</a>
+  </section>
+  <CtaBanner title="Envie d'aller plus loin avec un vrai suivi ?" label="Voir les formations" href="/formations" />
+</BaseLayout>
+
+<style>
+  .article {
+    max-width: 760px;
+    padding-block: 24px;
+    font-size: 19px;
+    color: var(--text-soft);
+  }
+  .back {
+    display: inline-block;
+    margin-top: 32px;
+    font-weight: 600;
+    color: var(--cyan);
+  }
+</style>

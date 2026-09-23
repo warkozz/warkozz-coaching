@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Logo from '../components/layout/Logo.astro';
+import Button from '../components/ui/Button.astro';
+---
+
+<BaseLayout title="Connexion" hideChrome>
+  <div class="login">
+    <aside class="login__side">
+      <Logo />
+      <div class="login__pitch">
+        <h2>Ton espace élève</h2>
+        <p>Réserve une session, retrouve tes reviews de VOD et suis ta progression au même endroit.</p>
+      </div>
+    </aside>
+    <section class="login__panel">
+      <a class="login__back" href="/">← Retour au site</a>
+      <div class="login__card">
+        <h1>Connexion</h1>
+        <p class="dim">Accède à ton espace élève pour réserver une session ou suivre ta progression.</p>
+        <form id="login-form" novalidate>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="toi@exemple.com" autocomplete="email" required />
+          <label for="password">Mot de passe</label>
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+          <Button block>Se connecter</Button>
+        </form>
+        <p class="login__alt dim">Pas encore de compte ? <a href="#">S'inscrire</a></p>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<script>
+  // Frontend uniquement : à brancher sur un vrai système d'authentification.
+  document.getElementById('login-form')?.addEventListener('submit', (e) => e.preventDefault());
+</script>
+
+<style>
+  .login {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+  }
+  .login__side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 48px;
+    background:
+      radial-gradient(600px 500px at 20% 90%, rgba(255, 122, 26, 0.14), transparent 70%),
+      radial-gradient(700px 500px at 90% 10%, rgba(0, 217, 232, 0.2), transparent 70%),
+      var(--bg-raised);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .login__pitch {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 420px;
+  }
+  .login__pitch h2 {
+    font-size: 44px;
+  }
+  .login__pitch p {
+    font-size: 18px;
+    color: var(--text-dim);
+  }
+  .login__panel {
+    display: flex;
+    flex-direction: column;
+    padding: 32px 48px;
+  }
+  .login__back {
+    align-self: flex-end;
+    font-size: 15px;
+    color: var(--text-dim);
+  }
+  .login__back:hover {
+    color: var(--cyan);
+  }
+  .login__card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+    max-width: 420px;
+    margin: auto;
+  }
+  h1 {
+    font-size: 36px;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+  }
+  label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-soft);
+  }
+  input {
+    height: 52px;
+    margin-bottom: 8px;
+    padding: 0 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    color: var(--text);
+    font: 16px var(--font-body);
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(0, 217, 232, 0.18);
+  }
+  form :global(.btn) {
+    margin-top: 8px;
+  }
+  .login__alt {
+    text-align: center;
+    font-size: 15px;
+  }
+  .login__alt a {
+    color: var(--cyan);
+    font-weight: 600;
+  }
+  @media (max-width: 820px) {
+    .login {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .login__side {
+      padding: 24px var(--gutter);
+    }
+    .login__pitch {
+      display: none;
+    }
+    .login__panel {
+      padding: 24px var(--gutter) 48px;
+    }
+  }
+</style>
